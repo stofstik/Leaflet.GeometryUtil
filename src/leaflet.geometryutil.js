@@ -519,12 +519,12 @@ L.GeometryUtil = L.extend(L.GeometryUtil || {}, {
         closest point on polyline to the given latlng, as a fraction of total line length.
         (opposite of L.GeometryUtil.interpolateOnLine())
         @param {L.Map} map Leaflet map to be used for this method
-        @param {L.PolyLine} polyline Polyline on which the latlng will be search
+        @param {Array<L.LatLng>|L.PolyLine} Dataset on which the latlng will be searched
         @param {L.LatLng} latlng The position to search
         @returns {Number} Float between 0 and 1
     */
-    locateOnLine: function (map, polyline, latlng) {
-        var latlngs = polyline.getLatLngs();
+    locateOnLine: function (map, latlngs, latlng) {
+        latlngs = (latlngs instanceof L.Polyline) ? latlngs.getLatLngs() : latlngs;
         if (latlng.equals(latlngs[0]))
             return 0.0;
         if (latlng.equals(latlngs[latlngs.length-1]))
@@ -550,6 +550,7 @@ L.GeometryUtil = L.extend(L.GeometryUtil || {}, {
         }
         return portion / total_length;
     },
+
 
     /**
         Returns a clone with reversed coordinates.
